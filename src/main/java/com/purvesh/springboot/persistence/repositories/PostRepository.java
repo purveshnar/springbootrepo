@@ -1,8 +1,9 @@
 package com.purvesh.springboot.persistence.repositories;
 
-import com.purvesh.springboot.model.Users;
+import com.purvesh.springboot.model.Posts;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<Users, Integer> {
+public interface PostRepository extends JpaRepository<Posts,Integer> {
+
 
 }

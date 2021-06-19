@@ -1,8 +1,8 @@
 package com.purvesh.springboot.service;
 
-import com.purvesh.springboot.model.LoginRequest;
-import com.purvesh.springboot.model.RegisterUserRequest;
-import com.purvesh.springboot.persistence.User;
+import com.purvesh.springboot.model.LoginDto;
+import com.purvesh.springboot.model.RegisterUserDTO;
+import com.purvesh.springboot.model.Users;
 import com.purvesh.springboot.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,34 +16,11 @@ public class UserService {
     UserRepository userRepository;
 
     /**
-     * Registers the user
-     *
-     * @param registerUserRequest the request containing user information
-     * @return registered user
-     */
-    public User registerUser(RegisterUserRequest registerUserRequest) {
-        return userRepository.save(toUserModel().apply(registerUserRequest));
-    }
-
-    /**
      * Logs in the user
      *
-     * @param loginRequest the login request
+     * @param loginDto the login request
      */
-    public void login(LoginRequest loginRequest) {
+    public void login(LoginDto loginDto) {
 
-    }
-
-    /**
-     * Lambda to convert model to entity
-     *
-     * @return lambda performing the action
-     */
-    private Function<RegisterUserRequest, User> toUserModel() {
-        return request -> User.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .build();
     }
 }
