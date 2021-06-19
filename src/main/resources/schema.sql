@@ -5,14 +5,14 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL UNIQUE,
   `password` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 );
 
 --LOCK TABLES `users` WRITE;
 
-INSERT INTO `users` VALUES (1,'username','username@email.com','password'),(2,'testuser','test@gmail.com','testpassword'),(3,'qwerty','qwerty@gmail.com','qwertypassword');
+INSERT INTO `users` VALUES (1,'a','a@email.com','password'),(2,'testuser','test@gmail.com','testpassword'),(3,'qwerty','qwerty@gmail.com','qwertypassword');
 
 --UNLOCK TABLES;
 

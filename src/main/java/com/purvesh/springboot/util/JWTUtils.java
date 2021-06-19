@@ -16,18 +16,19 @@ import java.util.function.Function;
 @Component
 public class JWTUtils {
 
-    public String CreateJWTToken(Users user) {
+    public String createJWTToken(Users user) {
 
-        Claims claims= Jwts.claims();
+        Claims claims = Jwts.claims();
         claims.put("name", user.getUserName());
         claims.put("email", user.getEmail());
         claims.put("user_id", user.getUserId());
-        claims.setSubject("MY Blog");
+        claims.setSubject(user.getUserName());
         claims.setIssuedAt(new Date());
+        claims.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000));
 
         String token = Jwts.builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, Constants.JWT_SECRET)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
 
         return token;
@@ -54,6 +55,7 @@ public class JWTUtils {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
+
     //for retrieveing any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();

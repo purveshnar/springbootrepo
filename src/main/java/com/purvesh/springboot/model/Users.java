@@ -1,7 +1,9 @@
 package com.purvesh.springboot.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -14,6 +16,8 @@ import java.util.List;
         @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")})
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;

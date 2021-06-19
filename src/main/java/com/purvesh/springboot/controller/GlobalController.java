@@ -1,6 +1,5 @@
 package com.purvesh.springboot.controller;
 
-import com.purvesh.springboot.model.JwtResponse;
 import com.purvesh.springboot.model.LoginDto;
 import com.purvesh.springboot.model.RegisterUserDTO;
 import com.purvesh.springboot.model.Users;
@@ -11,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -38,9 +37,21 @@ public class GlobalController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity login(@RequestBody LoginDto loginDto) {
-        authenticate(loginDto.getEmail(), loginDto.getPassword());
-        String token = jwtUtils.generateToken(jwtUserDetailsService.loadUserByUsername(loginDto.getEmail()));
-        return new EntitiyHawk().genericSuccess(token);
+        /*UserDetails userDetails = jwtUserDetailsService.loadUserByEmail(loginDto.getEmail());
+        Optional.ofNullable(userDetails).ifPresent(userDetails1 -> authenticate(userDetails.getUsername(), loginDto.getPassword()));
+        //authenticate(loginDto.getEmail(), loginDto.getPassword());
+        String token = jwtUtils.generateToken(userDetails);
+        return new EntitiyHawk().genericSuccess(token);*/
+
+        Users user = jwtUserDetailsService.getUsersByEmail(loginDto.getEmail());
+        try {
+            Optional.ofNullable(user).ifPresent(users -> authenticate(users.getUserName(), loginDto.getPassword()));
+            String token = jwtUtils.createJWTToken(user);
+            return new EntitiyHawk().genericSuccess(token);
+        }catch (Exception e) {
+            System.out.println("BIG ERROR = " + e.getMessage());
+            return new EntitiyHawk().genericError(e.getMessage());
+        }
     }
 
     @PostMapping("/register")

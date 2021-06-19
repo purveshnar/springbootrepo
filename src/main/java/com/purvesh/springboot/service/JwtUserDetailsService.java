@@ -28,13 +28,32 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("username@email.com".equals(username)) {
-            return new User("username@email.com", "$2a$10$JmEqHJ1ZGpvssKqBmP8x3uFGB1c4gKS3Bs7UT3fw1uZAjD8WrD/3a",
-                    new ArrayList<>());
-        } else {
+
+        Users user = userRepository.findByUsername(username).orElseThrow(() -> {
             log.error("User not found with username: " + username);
             throw new BadCredentialsException("Invalid Username or Password");
-        }
+        });
+
+        return new User(user.getUserName(), user.getPassword(), new ArrayList<>());
+    }
+
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+
+        Users user = userRepository.findByEmail(email).orElseThrow(() -> {
+            log.error("User not found with email: " + email);
+            throw new BadCredentialsException("Invalid Username or Password");
+        });
+
+        return new User(user.getUserName(), user.getPassword(), new ArrayList<>());
+    }
+
+    public Users getUsersByEmail(String email) throws UsernameNotFoundException {
+
+        return userRepository.findByEmail(email).orElseThrow(() -> {
+            log.error("User not found with email: " + email);
+            throw new BadCredentialsException("Invalid Username or Password");
+        });
+
     }
 
     /**

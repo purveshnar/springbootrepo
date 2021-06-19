@@ -1,4 +1,5 @@
 package com.purvesh.springboot.config;
+
 import com.purvesh.springboot.util.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/login","/login/", "/register").permitAll().
+                .authorizeRequests().antMatchers("/login", "/login/", "/h2", "/register").permitAll().
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to

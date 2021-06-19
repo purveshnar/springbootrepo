@@ -1,6 +1,9 @@
 package com.purvesh.springboot.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -12,6 +15,9 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "Posts.findAll", query = "SELECT p FROM Posts p")})
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Posts implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,7 +42,6 @@ public class Posts implements Serializable {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
     @JoinColumn(name = "published_by", referencedColumnName = "user_id")
-    @ManyToOne
     private Users publishedBy;
 
     @Override

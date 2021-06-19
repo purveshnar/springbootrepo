@@ -14,15 +14,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomerRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         System.out.println("ex.getMessage() = " + ex.getMessage());
         System.out.println("ex.getBindingResult().getFieldError().getDefaultMessage() = " + ex.getBindingResult().getFieldError().getDefaultMessage());
         return new EntitiyHawk().genericSuccess(ex.getBindingResult().getFieldError().getDefaultMessage());
     }
 
     @ExceptionHandler
-    public ResponseEntity<Object> handleException(RuntimeException ex, WebRequest webRequest){
-        System.out.println("CustomerRestExceptionHandler.handleException");
+    public ResponseEntity handleException(RuntimeException ex, WebRequest webRequest) {
+        System.out.println("CustomerRestExceptionHandler.handleException: " + ex.getMessage());
         return new EntitiyHawk().genericError(ex.getMessage());
     }
 }
